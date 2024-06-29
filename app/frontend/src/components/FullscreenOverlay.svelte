@@ -2,7 +2,7 @@
     export let opacity = 0.5;
     export let priority = 0;
 </script>
-
+0,5
 
 <style>
     .overlay {

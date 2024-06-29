@@ -1,18 +1,11 @@
-
-FROM nikolaik/python-nodejs
-
-WORKDIR /app
-
-COPY ["package.json", "package-lock.json*", "./"]
-
-RUN npm install
-
+FROM node:lts-alpine
+ENV NODE_ENV=production
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
 COPY . .
-
-RUN npm run build
-
-RUN pip install -U tiny-http-server
-
-WORKDIR public
-CMD ["tiny-http-server", "--bind", "0.0.0.0",  "--port", "8000"]
-# CMD ["sleep","3600"]
+EXPOSE 3000
+RUN chown -R node /usr/src/app
+USER node
+CMD ["node", "index.js"]
+package-lock.json
